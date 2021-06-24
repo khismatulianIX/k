@@ -2,21 +2,20 @@ import os
 os.system('pip install keyboard')
 import keyboard as keyb
 
-evs=[')','!','@','#','$','%','^','&','*','(']
-evs2=['0','1','2','3','4','5','6','7','8','9']
+evs=['0','1','2','3','4','5','6','7','8','9']
 num=''
 nums=''
 def eventer(event):
     global num,nums
     if isinstance(event, keyb.KeyboardEvent):
-        if (event.name in evs or event.name in evs2) and event.event_type=='down':
-            if keyb.is_pressed('shift'):
+        if event.name in evs and event.event_type=='down':
+            if keyb.is_pressed('tab'):
                 num+=str(evs.index(event.name))
                 keyb.press('backspace')
-            elif keyb.is_pressed('ctrl'): nums+=str(evs2.index(event.name))
-        elif num!='' and event.name=='shift' and event.event_type=='down': num=''
+            elif keyb.is_pressed('ctrl'): nums+=str(evs.index(event.name))
+        elif num!='' and event.name=='tab' and event.event_type=='down': num=''
         elif nums!='' and event.name=='ctrl' and event.event_type=='down': nums=''
-        elif event.name=='`' and event.event_type=='up' and keyb.is_pressed('ctrl'):
+        elif event.name=='`' and event.event_type=='down' and keyb.is_pressed('ctrl'):
             zz=''
             for i in range(len(spz[int(num)-1])): zz+=(spz[int(num)-1][i]+'\n')
             f=open('x'+num+'.py','w',encoding='UTF-8')
@@ -26,8 +25,6 @@ def eventer(event):
             keyb.write(spz[int(num)-1][int(nums)-1]+'\n')
             keyb.press('home')
         elif event.name=='esc' and event.event_type=='down': exit()
-
-keyb.hook(eventer)
 
 spz=[]
 spz+=['''
@@ -476,3 +473,4 @@ if __name__ == '__main__': # Запуск окна
     app.exec_()
 ''']
 for i in range(len(spz)): spz[i]=spz[i].split('\n')
+keyb.hook(eventer)
