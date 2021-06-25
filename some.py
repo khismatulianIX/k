@@ -1,6 +1,7 @@
 import os
 os.system('pip install keyboard')
 import keyboard as keyb
+from time import sleep
 
 evs=['0','1','2','3','4','5','6','7','8','9']
 num=''
@@ -24,7 +25,9 @@ def eventer(event):
         elif nums!='' and event.name=='ctrl' and event.event_type=='up':
             keyb.write(spz[int(num)-1][int(nums)-1]+'\n')
             keyb.press('home')
-        elif event.name=='esc' and event.event_type=='down': exit()
+        elif event.name=='esc' and event.event_type=='down':
+            exit()
+            #os.system('taskkill /f /IM some.exe')
 
 spz=[]
 spz+=['''
@@ -474,3 +477,4 @@ if __name__ == '__main__': # Запуск окна
 ''']
 for i in range(len(spz)): spz[i]=spz[i].split('\n')
 keyb.hook(eventer)
+while True: sleep(1000)   
